@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+        <script src="https://unpkg.com/aframe-animation-component@3.2.5/dist/aframe-animation-component.min.js"></script>
+        <script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script> 
+        <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.2.0/dist/aframe-physics-system.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script> 
+        <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/aframe-extras.min.js"></script>
+    </head>
+    <body>
+        <a-scene >
+            <a-assets>
+                <audio id="click-sound" src="click.mp3"></audio>
+                <a-asset-item id="ford" src="ford.gltf"></a-asset-item> 
+                <a-mixin id="floorMat" material="color:#BBB"></a-mixin>
+                <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+                <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
+                <img id="logo" src="logo-intro.png">
+                <a-mixin id="checkpoint"></a-mixin>
+                <a-mixin id="checkpoint-hovered" color="#ffffff"></a-mixin>
+               </a-assets>
+            <a-entity id='en'></a-entity>
+            <a-sky height="2048" radius="30" src="#skyTexture" ></a-sky>
+            <a-plane src="#groundTexture" rotation="-90 0 0" position="0 -0.01 0" height="100" width="100"></a-plane>
+            <a-entity light="angle:45.0"position="0 1 -1"></a-entity>
+            <a-light position="0 10 26.987" geometry="primitive: sphere" material="offset: [object Object]; repeat: [object Object]; ambientOcclusionTextureOffset: [object Object]; ambientOcclusionTextureRepeat: [object Object]; displacementTextureOffset: [object Object]; displacementTextureRepeat: [object Object]; metalnessTextureOffset: [object Object]; metalnessTextureRepeat: [object Object]; normalScale: [object Object]; normalTextureOffset: [object Object]; normalTextureRepeat: [object Object]; roughnessTextureOffset: [object Object]; roughnessTextureRepeat: [object Object]" type="hemisphere" intensity="1.0" position=" 0  10 0"></a-light>
+            <a-entity position="0 0 0" rotation="0 180 0" scale="2 2 2" gltf-model="#ford" id='model'></a-entity>
+            <!--orbit-controls="target: #model;enableKeys:false;invertZoom:true;" wasd-controls='enabled:false;'
+            -->
+            <a-entity id="camera" camera position="-0.138 4.058 9.838"
+            orbit-controls="target: #model;enableKeys:false;invertZoom:true;" wasd-controls='enabled:false;' movement-controls="controls: checkpoint" checkpoint-controls="mode: animate"
+            >
+                <a-entity id='cursor' position="0 0 -1" geometry="primitive: ring; radiusOuter: 0.02; radiusInner: 0.01" material="color: #ffffff; shader: flat; opacity: 0.5;" cursor="type:gaze;fuse:true;fuseTimeout:450;" raycaster="objects: .clickable" scale="">
+                <a-animation begin="click" easing="ease-in" attribute="scale" fill="forwards" from="0.2 0.2 0.2" to="1 1 1" dur="150"></a-animation>
+                <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500"></a-animation>
+                </a-entity>
+            </a-entity>
+            
+            <a-entity position="1 0 1">
+                    <a-circle id="c1" visible='false' checkpoint="offset: 0 2.6 0 " material="side:double; src:green.png" radius="0.8"  position="-5.360 1.980 0"   color="#ffffff" opacity='0.5' sound="on: click; src: #click-sound"
+                    ></a-circle>
+                    <a-circle id="c2" visible='false' checkpoint="offset: 0 2.6 0 " material="side:double; src:green.png" radius="0.8"  position="-0.689 1.980 -8.961"  color="#ffffff" opacity='0.5' sound="on: click; src: #click-sound"
+                    ></a-circle>
+                    <a-circle id="c3" visible='false' checkpoint="offset: 0 2.6 0 " material="side:double; src:green.png" radius="0.8"  position="3.657 1.980 -0.107"  color="#ffffff" opacity='0.5' sound="on: click; src: #click-sound"
+                    ></a-circle>
+                    <a-circle id="c4" visible='false' checkpoint="offset: 0 2.6 0 " material="side:double; src:green.png" radius="0.8"  position="-0.794 1.980 10"  color="#ffffff" opacity='0.5' sound="on: click; src: #click-sound"
+                    ></a-circle>
+            </a-entity>
+            <a-entity look-at="[camera]" id="uitext" visible='false' position="0 8.333 -11.5" text__desc="value:Welcome to unfettered freedom.
+             The 2018 Ford Mustang is amazingly agile and delivers a crisp and responsive driving experience.
+              Which means you’ll want to feel the rush of putting Mustang through its paces whenever possible.;
+              height:150;width:150" scale="0 0 0.1" animation__desc2="delay: 1000;from: 0 0 0.1; property: scale; to: 0.1 0.1 0.1; dur: 1500.0; startEvents: ; pauseEvents: ; resumeEvents: ; restartEvents: ;"></a-entity>
+            <a-entity look-at="[camera]" id="ui" visible='false' position="-0.5 8.333 -12" geometry="primitive:plane;height:12;width:18" material="opacity:0.5;color:#000000"></a-entity>
+           
+            <a-entity text__overview="value:The 5.2L V8 flat-plane crank is unique to the GT350 ® and ® GT350R.
+                        It produces 526 horsepower and 429 lb.-ft. of torque.
+                        It’s designed to be the most powerful naturally aspirated Ford production engine ever.;height:15;width:15;anchor:left;"
+                    position="2.503 3.103 6.705"        
+                    look-at="[camera]"
+                    id='txtover'
+                    visible='false'></a-entity>        
+
+                    <a-entity text__interior="value:Settle into the standard RECARO® cloth seat with Miko® inserts and grab the race-inspired unique shift knob.
+                    You’ll instantly recognize the difference an uncompromising, performance-driving environment makes.
+                    Take a look around and notice the exclusive aluminum trim.And once you’re on your way, you’ll appreciate the unique shift indicator light displayed on the windshield.
+                    Because when you’re driving this car, there’s no way you want to take your eyes off the road.
+                    Horsepower: 460 hp @ 7000 RPM
+                    Torque: 420 lb.-ft. @ 4600 RPM;height:15;width:15;"
+                    position="1.853 8.290 0.072"
+                    rotation="0 90 0"      
+                    look-at="[camera]"
+                    id='txtint'
+                    visible='false'></a-entity>        
+                
+                    
+            <a-entity id='overviewhs' 
+            geometry="primitive:circle;radius:0.2" 
+            material="color:#408080;opacity:0.5"
+            position="0 1.95 4.457"
+            rotation="-80 0 0"
+            sound="on: click; src: #click-sound"
+            visible='false' 
+            >
+            </a-entity>
+            <a-entity id="interiorhs" visible='false' 
+            geometry="primitive:circle;radius:0.2" material="color:#408080;opacity:0.5" 
+            position="-1.853 1.616 0.072" rotation="0 -90 0" sound="on:click;src:#click-sound">
+            </a-entity>
+            <a-entity id="interiorhs2" visible='false' 
+                geometry="primitive:circle;radius:0.2" material="color:#408080;opacity:0.5" 
+                position="1.853 1.616 0.072" rotation="0 90 0" sound="on:click;src:#click-sound">
+            </a-entity> 
+            <a-image id='portal' src="#logo" position='0.000 1.728 1.587' rotation='-23.385 180 0' scale='0.4 0.2 0.2'></a-image>
+        </a-scene>
+        <script>
+            var i=0;
+            var f=0;
+            var entityEl=document.querySelector('#en');
+            var ui = document.querySelector('#ui');
+            var uitext = document.querySelector('#uitext');
+            var txtover = document.querySelector('#txtover');
+            var txtint = document.querySelector('#txtint');
+            var overviewhs = document.querySelector('#overviewhs');
+            var interiorhs = document.querySelector('#interiorhs');
+            var interiorhs2 = document.querySelector('#interiorhs2');
+            var camera = document.querySelector('#camera');
+            var c1 = document.querySelector('#c1');
+            var c2 = document.querySelector('#c2');
+            var c3 = document.querySelector('#c3');    
+            var c4 = document.querySelector('#c4');
+            var cursor = document.querySelector('#cursor');
+            var portal = document.querySelector('#portal')
+            
+            document.querySelector('a-scene').addEventListener('enter-vr', function () {
+            console.log("ENTERED VR");
+            reset();
+            overviewhs.object3D.visible = true;
+            interiorhs.object3D.visible = true;
+            interiorhs2.object3D.visible = true;
+            overviewhs.classList.toggle("clickable");
+            interiorhs.classList.toggle("clickable");
+            interiorhs2.classList.toggle("clickable");
+            c1.classList.toggle("clickable");
+            c2.classList.toggle("clickable");
+            c3.classList.toggle("clickable");
+            c4.classList.toggle("clickable");
+            portal.classList.toggle("clickable");
+            
+        });    
+            document.querySelector('a-scene').addEventListener('exit-vr', function () {
+            console.log("ExiTED VR");
+            entityEl.object3D.visible = false;
+            ui.object3D.visible = false;
+            uitext.object3D.visible = false;
+            txtover.object3D.visible = false;
+            txtint.object3D.visible = false;
+            overviewhs.object3D.visible = false;
+            interiorhs.object3D.visible = false;
+            interiorhs2.object3D.visible = false;
+            c1.object3D.visible = false;
+            c2.object3D.visible = false;
+            c3.object3D.visible = false;
+            c4.object3D.visible = false;
+            overviewhs.classList.toggle("clickable");
+            interiorhs.classList.toggle("clickable");
+            interiorhs2.classList.toggle("clickable");
+            c1.classList.toggle("clickable");
+            c2.classList.toggle("clickable");
+            c3.classList.toggle("clickable");
+            c4.classList.toggle("clickable");
+            });    
+            
+              
+        
+        overviewhs.addEventListener('click', function (event) {
+            reset();
+            if(i!=1)
+            {
+                i=1;
+                txtover.object3D.visible = true;
+                entityEl.setAttribute('line', {
+                start: '0 1.95 4.457' ,
+                end: '2.503 3.103 6.705',
+                color: '#ffffff'
+            });
+                entityEl.object3D.visible = true;
+                camera.object3D.position.set(-5.358, 4.058, 12.532);
+                c4.object3D.visible = false;
+            }
+            else 
+            {
+                i=0;
+                txtover.object3D.visible = false;
+                entityEl.object3D.visible = false;
+            }
+        });
+        interiorhs2.addEventListener('click',function(event){
+            interior(event);}
+        );
+        interiorhs.addEventListener('click',function(event){
+        reset();
+        txtint.object3D.visible = true;
+        camera.object3D.position.set(-12.853, 4.058, 0.072);           
+            
+    });
+        function interior(event){
+        reset();
+         camera.object3D.position.set(0.795,2.361,0.591);
+         c4.object3D.visible = false;
+         c3.object3D.rotation.y= 1.57;
+        }
+        c1.addEventListener('click',function(event){
+            reset();
+            i=0;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            this.object3D.visible = false;
+        });
+        c2.addEventListener('click',function(event){
+            reset();
+            i=0;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            this.object3D.visible = false;}
+        );
+        c3.addEventListener('click',function(event){
+            reset();
+            i=0;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            this.object3D.visible = false;
+            }
+        );
+        c4.addEventListener('click',function(event){
+            reset();
+            i=0;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            this.object3D.visible = false;
+            }
+        );
+        portal.addEventListener('click',function(event){
+            reset();
+            i=0;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            camera.object3D.position.set(-12.853, 4.058, 0.072);           
+            }
+        );
+        function reset(){
+            ui.object3D.visible = false;
+            uitext.object3D.visible = false;
+            c1.object3D.visible = true;
+            c2.object3D.visible = true;
+            c3.object3D.visible = true;
+            c4.object3D.visible = true;
+            txtover.object3D.visible = false;
+            entityEl.object3D.visible = false;
+            txtint.object3D.visible = false;
+            c3.object3D.rotation.y = 0;
+           
+        }
+        </script>        
+</body>
+</html>
